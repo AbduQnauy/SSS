@@ -8,13 +8,12 @@ const CategoryPreview = ({title, products, fullList}) => (
         <Title to={title}>{title.toUpperCase()}</Title>
       </h2>
       <Preview>
-        {
-            fullList ? products?.map((product) =><ProductCard key={product.id} product={product} />) :
-                       products?.filter((_, idx) => idx < 4)
-                               .map((product) =><ProductCard key={product.id} product={product} />)
-        }
+      {fullList ? (products.map((product) =><ProductCard key={product.id} product={product} />)) :
+      (products.filter((_, idx) => idx < 4)
+                .map((product) =><ProductCard key={product.id} product={product} />))}
       </Preview>
     </CategoryPreviewContainer>
   )
 
 export default CategoryPreview;
+

@@ -1,8 +1,8 @@
 import { async } from "@firebase/util";
 import {useState} from "react"
+import { useDispatch } from 'react-redux'
 import Button from '../button/button.component'
-import {createAuthUserWithEmailAndPassword, createUserDocumentFromAuth} from '../../utils/firebase/firebase.utils'
-
+import { signUpStart } from '../../store/user/user.action'
 import FormInput from '../form-input/form-input.component'
 
 import { SignUpConatiner } from './sign-up-form.styles'
@@ -17,20 +17,21 @@ const defaultFormFields = {
 
 const SignUpForm = (props) => {
 
+    const dispatch = useDispatch()
 
     const [formFields, setFormFields] = useState(defaultFormFields) 
+    const {displayName, email, password, confirmPassword } = formFields
 
     const resetFormFields = () =>{
         setFormFields(defaultFormFields)
     }
 
-   const handleSubmit = async(event) =>{
+   const handleSubmit = async (event) =>{
     event.preventDefault()
     if(password !== confirmPassword) {alert('passwords do not match'); return}
 
     try{
-        const {user} = await createAuthUserWithEmailAndPassword(email, password)
-        await createUserDocumentFromAuth(user, {displayName })
+        dispatch(signUpStart(email, password, displayName))
         resetFormFields()
     }
     catch(error){
@@ -44,16 +45,6 @@ const SignUpForm = (props) => {
 
    }
   
-
-  const {
-    displayName,
-    email,
-    password,
-    confirmPassword
-       } = formFields
-
-  console.log(formFields);  
-
   const changeHandler = ({target:{name, value}}) => setFormFields({...formFields, [name]: value})
   return (
     <SignUpConatiner>

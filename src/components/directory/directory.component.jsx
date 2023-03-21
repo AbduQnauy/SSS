@@ -35,7 +35,7 @@ const categories = [
 ]  
 const Directories = () =>{
   return(<CategoryContainer> 
-      {categories.map((category, index) => (
+      {categories.map((category, index)  => (
         <DirectoryItem key={index} category={category} />
       ))}
        
